@@ -11,7 +11,9 @@ from django.utils import timezone
 from datetime import timedelta
 from decimal import Decimal
 from django.core.cache import cache
+import logging
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 @api_view(['POST'])
@@ -25,29 +27,39 @@ def create_order(request):
             if user.balance < prepayment:
                 return Response({'message': 'INSUFFICIENT_FUNDS',
                     'current_balance': user.balance}, status=status.HTTP_400_BAD_REQUEST)
-            order = Order.objects.create(
-                title=data['title'],
-                description=data['description'],
-                budget=data['budget'],
-                deadline=data['deadline'],
-                customer=user
-            )
+            try:
+                order = Order.objects.create(
+                    title=data['title'],
+                    description=data['description'],
+                    budget=data['budget'],
+                    deadline=data['deadline'],
+                    customer=user
+                )
+                logger.info(f"Order {order.id} created successfully for user {user.id}")
+            except Exception as e:
+                logger.error(f"Failed to create order for user {user.id}. Error: {str(e)}")
+                return Response({'message': 'Failed to create order'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            attached_files = []
             if 'attached_files[]' in request.data:
-                attached_files = []
-                for file in request.data.getlist('attached_files[]'):
-                    file_path = default_storage.save(f'uploads/{file.name}', file)
-                    attached_files.append(file_path)
-                attached_files = [settings.MEDIA_URL + file for file in attached_files]
-                print(attached_files)
-                order.attached_files = attached_files
-                print(order.attached_files)
-                order.save()
+                try:
+                    for file in request.data.getlist('attached_files[]'):
+                        file_path = default_storage.save(f'uploads/{file.name}', file)
+                        attached_files.append(file_path)
+                    attached_files = [settings.MEDIA_URL + file for file in attached_files]
+                    order.attached_files = attached_files
+                    order.save()
+                    logger.info(f"Files attached to order {order.id}: {attached_files}")
+                except Exception as e:
+                    logger.error(f"Failed to attach files to order {order.id}. Error: {str(e)}")
+                    order.delete()
+                    return Response({'message': 'Failed to attach files'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             user.balance -= prepayment
             user.save()
             cache_key = f"user_orders_{request.user.id}"
             cache.delete(cache_key)  
             return Response({"data": OrderResource(order).data}, status=status.HTTP_201_CREATED)
         else:
+            logger.error(f"Order creation failed. Validation errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
@@ -84,11 +96,16 @@ def destroy_order(request, pk):
                 file_path = file_path.replace(settings.MEDIA_URL, settings.MEDIA_ROOT + "/")
                 if default_storage.exists(file_path):
                     default_storage.delete(file_path)
+                    logger.info(f"Deleted file: {file_path}")
+                else:
+                    logger.warning(f"File not found for deletion: {file_path}")
         order.delete()
+        logger.info(f"Order {pk} deleted successfully by user {request.user.id}")
         cache_key = f"user_orders_{request.user.id}"
         cache.delete(cache_key)  
         return Response({'message': 'DELETED'}, status=status.HTTP_200_OK)    
     except Order.DoesNotExist:
+        logger.error(f"Order with ID {pk} not found.")
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class UpdateOrderStatusView(APIView):
@@ -100,23 +117,27 @@ class UpdateOrderStatusView(APIView):
             serializer = UpdateOrderStatusSerializer(order, data=request.data, partial=True)
             if serializer.is_valid():
                 order = serializer.save() 
+                logger.info(f"Order {pk} status updated successfully.")
                 cache_key = f"user_orders_{request.user.id}"
                 cache.delete(cache_key) 
                 return Response(OrderSerializer(order, context={'request': request}).data)
             else:
+                logger.error(f"Validation failed for updating order {pk}: {serializer.errors}")
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Order.DoesNotExist:
+            logger.error(f"Order with ID {pk} not found.")
             return Response({"detail": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
         
-
 class CurrentOrderView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         if not user.has_active_subscription():
+            logger.warning(f"User {user.id} attempted to create an order without active subscription.")
             return Response({
                 "message": "subscription_required",
             }, status=status.HTTP_403_FORBIDDEN)
         if not user.can_receive_new_order():
+            logger.warning(f"User {user.id} attempted to create an order, but they are in cooldown. Next available at: {user.next_available_at()}")
             return Response({
                 "message": "cooldown_active",
                 "next_available_at": user.next_available_at(),
@@ -125,14 +146,20 @@ class CurrentOrderView(APIView):
     def create_order(self, user, request):
         order = Order.objects.filter(status='open').first()
         if not order:
+            logger.info(f"No orders available for user {user.id}.")
             return Response({"message": "No orders available"}, status=status.HTTP_404_NOT_FOUND)
-        order.executor = user
-        order.status = 'reviewing'
-        order.expires_at = timezone.now() + timedelta(hours=2)
-        order.save()
-        user.last_received_at = timezone.now()
-        user.save()
-        return Response(OrderSerializer(order, context={'request': request}).data)
+        try:
+            order.executor = user
+            order.status = 'reviewing'
+            order.expires_at = timezone.now() + timedelta(hours=2)
+            order.save()
+            user.last_received_at = timezone.now()
+            user.save()
+            logger.info(f"Order {order.id} assigned to user {user.id} successfully.")
+            return Response(OrderSerializer(order, context={'request': request}).data)
+        except Exception as e:
+            logger.error(f"Error while assigning order {order.id} to user {user.id}: {str(e)}")
+            return Response({"message": "Internal server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def reject_order(request, pk):
@@ -140,19 +167,26 @@ def reject_order(request, pk):
     try:
         order = Order.objects.get(id=pk)
     except Order.DoesNotExist:
+        logger.error(f"Order with ID {pk} not found when user {user.id} tried to reject.")
         return Response({'message': 'Order not found'}, status=404)
     if order.executor_id != user.id:
         return Response({'message': 'You are not assigned to this order'}, status=403)
     if order.status != 'reviewing':
+        logger.warning(f"User {user.id} attempted to reject order {pk} in status {order.status}, which cannot be rejected.")
         return Response({'message': 'Order cannot be rejected'}, status=400)
-    order.executor_id = None
-    order.status = 'open'
-    order.expires_at = None
-    order.save()
-    next_available_at = user.next_available_at()
-    cache_key = f"user_orders_{order.customer_id}"
-    cache.delete(cache_key)  
-    return Response({
-        'message': 'Order rejected successfully',
-        'next_available_at': next_available_at,
-    })
+    try:
+        order.executor_id = None
+        order.status = 'open'
+        order.expires_at = None
+        order.save()
+        next_available_at = user.next_available_at()
+        cache_key = f"user_orders_{order.customer_id}"
+        cache.delete(cache_key)  
+        logger.info(f"Order {pk} rejected successfully by user {user.id}.")
+        return Response({
+            'message': 'Order rejected successfully',
+            'next_available_at': next_available_at,
+        })
+    except Exception as e:
+        logger.error(f"Error while rejecting order {pk} by user {user.id}: {str(e)}")
+        return Response({'message': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

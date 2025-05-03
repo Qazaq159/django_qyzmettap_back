@@ -10,6 +10,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - db_replica
 
   db:
     image: postgres:14
@@ -19,6 +20,24 @@ services:
       POSTGRES_DB: mydatabase
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
+    networks:
+      - app_network
+
+  db_replica:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      REPLICATION_ROLE: replica
+      PRIMARY_HOST: db
+      PRIMARY_PORT: 5432
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    depends_on:
+      - db
+    networks:
+      - app_network
   
   redis:
     image: redis:alpine
@@ -34,3 +53,8 @@ services:
 
 volumes:
   postgres_data:
+  postgres_replica_data:
+
+networks:
+  app_network:
+    driver: bridge
