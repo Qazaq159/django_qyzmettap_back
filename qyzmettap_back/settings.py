@@ -93,6 +93,115 @@ CORS_ALLOW_CREDENTIALS = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
 
+import sys
+from django.core.exceptions import ImproperlyConfigured
+DEFAULT_LOGGER_NAME = "qyzmettap_back"
+DB_LEVEL = 'ERROR'
+DEFAULT_LOGGER_HANDLERS = ['default_file', 'sentry']
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/..')
+
+def rel_to(to, *x):
+    return os.path.join(to, *x)
+
+def rel(*x):
+    return os.path.join(PROJECT_PATH, *x)
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = 'Set the %s environment variable' % var_name
+        raise ImproperlyConfigured(error_msg)
+
+def get_env_or_default(var_name, default):
+    return os.environ.get(var_name, default)
+
+WORK_ROOT = rel_to('..', '..',)
+LOGS_FOLDER = get_env_or_default('LOGS_FOLDER', rel_to(WORK_ROOT, 'logs'))
+LOG_DIR = rel_to(LOGS_FOLDER, 'qyzmettap_back')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        # 'handlers': ['console'],
+    },
+
+    'formatters': {
+        'general': {
+            'format': '%(asctime)s %(levelname)s\t%(message)s',
+            # 'datefmt': '%m/%d %H:%M:%S'
+        },
+        'json': {
+            '()': 'pktools.json_formatters.SimpleJsonFormatter'
+        },
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s %(process)d %(thread)d\t%(message)s',
+            'datefmt': '%m/%d %H:%M:%S'
+        }
+    },
+
+    'handlers': {
+        'gunicorn': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': rel_to(LOG_DIR, 'gunicorn.log'),
+            'maxBytes': 1024 * 1024 * 100,
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'general'
+        },
+        'default_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': rel_to(LOG_DIR, 'default.log'),
+            'formatter': 'json',
+        },
+        'db_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': rel_to(LOG_DIR, 'db.log'),
+            'formatter': 'verbose',
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'sentry_sdk.integrations.logging.EventHandler'
+        }
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': DEFAULT_LOGGER_HANDLERS,
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['sentry'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'gunicorn.errors': {
+            'handlers': ['gunicorn', 'sentry'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['db_file', 'sentry'],
+            'level': DB_LEVEL,
+            'propagate': True,
+        },
+        DEFAULT_LOGGER_NAME: {
+            'handlers': DEFAULT_LOGGER_HANDLERS,
+            'level': 'INFO',
+            'propagate': True,
+        }
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -104,13 +213,26 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydatabase',
-        'USER': 'user',
-        'PASSWORD': 'password',
-        'HOST': 'db', 
-        'PORT': '5432',
+        'NAME': os.getenv('MASTER_DB_NAME'),
+        'USER': os.getenv('MASTER_DB_USER'),
+        'PASSWORD': os.getenv('MASTER_DB_PASSWORD'),
+        'HOST': os.getenv('MASTER_DB_HOST'),
+        'CONN_MAX_AGE': 0,
+        'DISABLE_SERVER_SIDE_CURSORS': True,
+    },
+    'replica': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('REPLICA_DB_NAME'),
+        'USER': os.getenv('REPLICA_DB_USER'),
+        'PASSWORD': os.getenv('REPLICA_DB_PASSWORD'),
+        'HOST': os.getenv('REPLICA_DB_HOST'),
+        'CONN_MAX_AGE': 0,
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
+
+DATABASE_ROUTERS = ['qyzmettap_back.router.ReplicaRouter']
+USE_REPLICA_DATABASE = get_env_or_default('USE_REPLICA_DATABASE', 'false').lower() == 'true'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
