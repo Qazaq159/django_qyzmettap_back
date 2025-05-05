@@ -47,35 +47,63 @@ class PaymentHistory(viewsets.ReadOnlyModelViewSet):
         logger.info("User requested payment history", extra={"user_id": self.request.user.id})
         return Payment.objects.filter(user=self.request.user).order_by('-created_at')
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhook(APIView):
     authentication_classes = []
     permission_classes = []
 
     def post(self, request):
-        payload = request.body
-        sig = request.META.get('HTTP_STRIPE_SIGNATURE')
         try:
-            event = stripe.Webhook.construct_event(payload, sig, settings.STRIPE_WEBHOOK_SECRET)
-        except stripe.error.SignatureVerificationError:
-            logger.error("Invalid Stripe signature", extra={"raw_signature": sig})
+            sig = request.META.get('HTTP_STRIPE_SIGNATURE')
+            payload = request.body
+
+            logger.warning("Received Stripe webhook", extra={
+                "body": payload.decode(errors="ignore"),
+                "signature": sig
+            })
+
+            # Верификация события от Stripe
+            event = stripe.Webhook.construct_event(
+                payload=payload,
+                sig_header=sig,
+                secret=settings.STRIPE_WEBHOOK_SECRET
+            )
+
+            intent = event['data']['object']
+            event_type = event['type']
+
+            if event_type == 'payment_intent.succeeded':
+                try:
+                    pay = Payment.objects.get(stripe_intent_id=intent['id'])
+                except Payment.DoesNotExist:
+                    logger.warning("PaymentIntent succeeded, but Payment not found", extra={"stripe_intent_id": intent['id']})
+                    return Response(status=404)
+
+                if pay.status != 'succeeded':
+                    pay.status = 'succeeded'
+                    pay.save(update_fields=['status'])
+
+                    user = pay.user
+                    user.balance += pay.amount
+                    user.save(update_fields=['balance'])
+
+                    logger.info("Payment succeeded and user balance updated", extra={
+                        "user_id": user.id,
+                        "payment_id": pay.id,
+                        "amount": str(pay.amount)
+                    })
+
+            elif event_type == 'payment_intent.payment_failed':
+                Payment.objects.filter(stripe_intent_id=intent['id']).update(status='failed')
+                logger.warning("Payment failed", extra={"stripe_intent_id": intent['id']})
+
+            return Response(status=200)
+
+        except stripe.error.SignatureVerificationError as e:
+            logger.error("Invalid Stripe signature", extra={"error": str(e)})
             return Response(status=400)
 
-        intent = event['data']['object']
-        if event['type'] == 'payment_intent.succeeded':
-            try:
-                pay = Payment.objects.get(stripe_intent_id=intent['id'])
-            except Payment.DoesNotExist:
-                logger.warning("PaymentIntent succeeded, but Payment not found", extra={"stripe_intent_id": intent['id']})
-                return Response(status=404)
-            if pay.status != 'succeeded':
-                pay.status = 'succeeded'
-                pay.save(update_fields=['status'])
-                user = pay.user
-                user.balance += pay.amount
-                user.save(update_fields=['balance'])
-                logger.info("Payment succeeded and user balance updated", extra={"user_id": user.id, "payment_id": pay.id, "amount": str(pay.amount)})
-        elif event['type'] == 'payment_intent.payment_failed':
-            Payment.objects.filter(stripe_intent_id=intent['id']).update(status='failed')
-            logger.warning("Payment failed", extra={"stripe_intent_id": intent['id']})
-        return Response(status=200)
+        except Exception as e:
+            logger.exception("Unexpected error in Stripe webhook")
+            return Response(status=500)

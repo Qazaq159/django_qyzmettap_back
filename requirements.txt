@@ -24,3 +24,6 @@ daphne
 django-redis
 celery[redis]
 redis
+pktools
+sentry-sdk
+

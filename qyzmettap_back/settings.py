@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-rd7&p1fl)9po0_wjdhy!82otw79gyea!=(qkf8ogs$ueeyiqv@
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web']
 
 
 INSTALLED_APPS = [
@@ -125,7 +125,7 @@ LOGGING = {
     'disable_existing_loggers': True,
     'root': {
         'level': 'WARNING',
-        # 'handlers': ['console'],
+        'handlers': ['console'],
     },
 
     'formatters': {
@@ -134,7 +134,7 @@ LOGGING = {
             # 'datefmt': '%m/%d %H:%M:%S'
         },
         'json': {
-            '()': 'pktools.json_formatters.SimpleJsonFormatter'
+            'format': '%(asctime)s %(levelname)s %(message)s'
         },
         'verbose': {
             'format': '%(asctime)s %(levelname)s %(process)d %(thread)d\t%(message)s',
@@ -194,6 +194,21 @@ LOGGING = {
             'handlers': ['db_file', 'sentry'],
             'level': DB_LEVEL,
             'propagate': True,
+        },
+        'market.views': {
+            'handlers': ['console', 'default_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'payments.views': {
+            'handlers': ['console', 'default_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'orders.views': {
+            'handlers': ['console', 'default_file'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
         DEFAULT_LOGGER_NAME: {
             'handlers': DEFAULT_LOGGER_HANDLERS,

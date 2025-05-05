@@ -1,10 +1,13 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
+from .models import UserInstance
+import logging
 
 @shared_task
 def send_confirmation_email(user_id):
-    from myapp.models import UserInstance
+    logger = logging.getLogger(__name__)
+    logger.warning(f"Sending email to user_id={user_id}")
     user = UserInstance.objects.get(id=user_id)
     
     subject = 'Welcome to Our Platform'

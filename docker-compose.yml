@@ -2,15 +2,22 @@ version: '3.8'
 
 services:
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    command: bash /app/entrypoint.sh
     volumes:
       - .:/app
+      - ./logs:/logs
     ports:
       - "8000:8000"
     depends_on:
       - db
       - db_replica
+    env_file:
+      - .env
+    networks:
+      - app_network
 
   db:
     image: postgres:14
@@ -45,11 +52,31 @@ services:
       - "6379:6379"  
   
   celery:
-    build: .
-    command: celery -A qyzmettap_back worker --loglevel=info
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./logs:/logs
     depends_on:
       - redis
       - db
+      - web
+
+
+  stripe:
+    build:
+      context: ./stripe-cli-custom
+    environment:
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+    volumes:
+      - .:/app
+      - ./stripe-cli-custom/stripe-token:/root/.config/stripe
+    depends_on:
+      - web
+    env_file:
+      - .env
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
