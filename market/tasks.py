@@ -1,6 +1,7 @@
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
+<<<<<<< Updated upstream
 from .models import UserInstance
 import logging
 
@@ -8,6 +9,12 @@ import logging
 def send_confirmation_email(user_id):
     logger = logging.getLogger(__name__)
     logger.warning(f"Sending email to user_id={user_id}")
+=======
+from market.models import UserInstance
+
+@shared_task
+def send_confirmation_email(user_id):
+>>>>>>> Stashed changes
     user = UserInstance.objects.get(id=user_id)
     
     subject = 'Welcome to Our Platform'
