@@ -1,2 +1,4 @@
-.env
+.*
 /stripe-cli-custom/stripe-token/
+__pycache__/*
+
