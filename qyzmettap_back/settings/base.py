@@ -139,7 +139,8 @@ LOGGING = {
             # 'datefmt': '%m/%d %H:%M:%S'
         },
         'json': {
-            'format': '%(asctime)s %(levelname)s %(message)s'
+            '()': 'pythonjsonlogger.jsonlogger.JsonFormatter',
+            'format': '%(asctime)s %(levelname)s %(name)s %(message)s %(user_id)s %(payment_id)s %(amount)s',
         },
         'verbose': {
             'format': '%(asctime)s %(levelname)s %(process)d %(thread)d\t%(message)s',
@@ -201,17 +202,17 @@ LOGGING = {
             'propagate': True,
         },
         'market.views': {
-            'handlers': ['console', 'default_file'],
+            'handlers': ['default_file'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'payments.views': {
-            'handlers': ['console', 'default_file'],
+            'handlers': ['default_file'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'orders.views': {
-            'handlers': ['console', 'default_file'],
+            'handlers': ['default_file'],
             'level': 'DEBUG',
             'propagate': False,
         },

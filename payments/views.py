@@ -105,5 +105,5 @@ class StripeWebhook(APIView):
             return Response(status=400)
 
         except Exception as e:
-            logger.exception("Unexpected error in Stripe webhook")
+            logger.exception("Unexpected error in Stripe webhook", extra={"error": str(e)})
             return Response(status=500)

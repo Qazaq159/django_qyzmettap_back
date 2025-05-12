@@ -26,4 +26,5 @@ celery[redis]
 redis
 pktools
 sentry-sdk
+python-json-logger
 

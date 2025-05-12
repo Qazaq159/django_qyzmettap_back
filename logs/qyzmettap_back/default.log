@@ -237,3 +237,194 @@ django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'web:8000'. You
 2025-05-05 14:51:41,178 INFO User requested payment history
 2025-05-05 14:52:15,853 INFO User requested payment history
 2025-05-05 14:52:15,871 INFO User requested payment history
+2025-05-12 16:18:35,387 INFO PaymentIntent created
+2025-05-12 16:18:35,655 WARNING Received Stripe webhook
+2025-05-12 16:18:35,655 ERROR Unexpected error in Stripe webhook
+Traceback (most recent call last):
+  File "/app/payments/views.py", line 67, in post
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 25, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 80, in verify_header
+    expected_sig = cls._compute_signature(signed_payload, secret)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 45, in _compute_signature
+    secret.encode("utf-8"),
+    ^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'encode'
+2025-05-12 16:18:35,664 ERROR HTTP POST /api/payments/webhook/ 500 [0.01, 172.18.0.5:45002]
+2025-05-12 16:18:36,860 WARNING Received Stripe webhook
+2025-05-12 16:18:36,861 ERROR Unexpected error in Stripe webhook
+Traceback (most recent call last):
+  File "/app/payments/views.py", line 67, in post
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 25, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 80, in verify_header
+    expected_sig = cls._compute_signature(signed_payload, secret)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 45, in _compute_signature
+    secret.encode("utf-8"),
+    ^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'encode'
+2025-05-12 16:18:36,868 ERROR HTTP POST /api/payments/webhook/ 500 [0.01, 172.18.0.5:45002]
+2025-05-12 16:18:36,994 WARNING Received Stripe webhook
+2025-05-12 16:18:36,995 ERROR Unexpected error in Stripe webhook
+Traceback (most recent call last):
+  File "/app/payments/views.py", line 67, in post
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 25, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 80, in verify_header
+    expected_sig = cls._compute_signature(signed_payload, secret)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 45, in _compute_signature
+    secret.encode("utf-8"),
+    ^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'encode'
+2025-05-12 16:18:37,003 ERROR HTTP POST /api/payments/webhook/ 500 [0.01, 172.18.0.5:45002]
+2025-05-12 16:18:39,846 WARNING Received Stripe webhook
+2025-05-12 16:18:39,847 ERROR Unexpected error in Stripe webhook
+Traceback (most recent call last):
+  File "/app/payments/views.py", line 67, in post
+    event = stripe.Webhook.construct_event(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 25, in construct_event
+    WebhookSignature.verify_header(payload, sig_header, secret, tolerance)
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 80, in verify_header
+    expected_sig = cls._compute_signature(signed_payload, secret)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/stripe/_webhook.py", line 45, in _compute_signature
+    secret.encode("utf-8"),
+    ^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'encode'
+2025-05-12 16:18:39,855 ERROR HTTP POST /api/payments/webhook/ 500 [0.01, 172.18.0.5:45002]
+2025-05-12 16:18:43,135 INFO User requested payment history
+2025-05-12 16:18:43,160 INFO User requested payment history
+2025-05-12 16:18:45,584 INFO User requested payment history
+2025-05-12 16:18:45,611 INFO User requested payment history
+2025-05-12 16:18:46,153 INFO User requested payment history
+2025-05-12 16:18:46,180 INFO User requested payment history
+2025-05-12 16:18:46,685 INFO User requested payment history
+2025-05-12 16:18:46,709 INFO User requested payment history
+2025-05-12 16:18:47,336 INFO User requested payment history
+2025-05-12 16:18:47,364 INFO User requested payment history
+2025-05-12 16:18:56,054 INFO User requested payment history
+2025-05-12 16:18:56,082 INFO User requested payment history
+2025-05-12 16:21:22,040 INFO PaymentIntent created
+2025-05-12 16:21:22,286 WARNING Received Stripe webhook
+2025-05-12 16:21:23,534 WARNING Received Stripe webhook
+2025-05-12 16:21:23,554 INFO Payment succeeded and user balance updated
+2025-05-12 16:21:23,619 WARNING Received Stripe webhook
+2025-05-12 16:21:26,319 WARNING Received Stripe webhook
+2025-05-12 16:21:28,957 INFO User requested payment history
+2025-05-12 16:21:28,984 INFO User requested payment history
+2025-05-12 16:34:16,659 ERROR HTTP GET /api/my-orders/ 500 [8.07, 172.18.0.1:43318]
+2025-05-12 16:34:24,765 ERROR HTTP GET /api/my-orders/ 500 [8.10, 172.18.0.1:43328]
+2025-05-12 16:34:32,816 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:43318]
+2025-05-12 16:34:38,564 ERROR HTTP GET /api/my-orders/ 500 [5.75, 172.18.0.1:43328]
+2025-05-12 16:34:44,813 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:43318]
+2025-05-12 16:34:46,635 ERROR HTTP GET /api/my-orders/ 500 [8.07, 172.18.0.1:43328]
+2025-05-12 16:34:54,285 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:43318]
+2025-05-12 16:34:54,288 ERROR HTTP GET /api/my-orders/ 500 [8.07, 172.18.0.1:54256]
+2025-05-12 16:34:54,679 ERROR HTTP GET /api/my-orders/ 500 [8.04, 172.18.0.1:43328]
+2025-05-12 16:34:56,381 INFO Order created successfully
+2025-05-12 16:35:02,748 ERROR HTTP GET /api/my-orders/ 500 [8.07, 172.18.0.1:54256]
+2025-05-12 16:35:02,142 ERROR HTTP POST /api/orders/ 500 [5.79, 172.18.0.1:43328]
+2025-05-12 16:35:08,496 ERROR HTTP GET /api/my-orders/ 500 [5.74, 172.18.0.1:43318]
+2025-05-12 16:35:14,720 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:43328]
+2025-05-12 16:35:16,544 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:54256]
+2025-05-12 16:35:22,046 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:43318]
+2025-05-12 16:35:24,640 ERROR HTTP GET /api/my-orders/ 500 [8.09, 172.18.0.1:43328]
+2025-05-12 16:35:30,422 ERROR HTTP GET /api/my-orders/ 500 [5.78, 172.18.0.1:43318]
+2025-05-12 16:35:31,235 ERROR HTTP GET /api/my-orders/ 500 [5.76, 172.18.0.1:43328]
+2025-05-12 16:35:36,826 ERROR HTTP GET /api/my-orders/ 500 [5.52, 172.18.0.1:51624]
+2025-05-12 16:35:38,460 ERROR HTTP GET /api/my-orders/ 500 [8.03, 172.18.0.1:54256]
+2025-05-12 16:35:46,527 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:51624]
+2025-05-12 16:35:52,614 INFO Order created successfully
+2025-05-12 16:35:52,626 INFO Files attached to order
+2025-05-12 16:35:54,599 ERROR HTTP GET /api/my-orders/ 500 [8.07, 172.18.0.1:54256]
+2025-05-12 16:35:54,874 ERROR HTTP GET /api/my-orders/ 500 [8.03, 172.18.0.1:51624]
+2025-05-12 16:36:00,694 ERROR HTTP GET /api/my-orders/ 500 [8.27, 172.18.0.1:43328]
+2025-05-12 16:36:00,875 ERROR HTTP POST /api/orders/ 500 [8.28, 172.18.0.1:43318]
+2025-05-12 16:36:01,504 ERROR HTTP GET /api/my-orders/ 500 [8.25, 172.18.0.1:56904]
+2025-05-12 16:36:03,197 ERROR HTTP GET /api/my-orders/ 500 [8.26, 172.18.0.1:51624]
+2025-05-12 16:36:11,237 ERROR HTTP GET /api/my-orders/ 500 [8.04, 172.18.0.1:56904]
+2025-05-12 16:36:15,595 ERROR HTTP GET /api/my-orders/ 500 [4.35, 172.18.0.1:51624]
+2025-05-12 16:36:23,632 ERROR HTTP GET /api/my-orders/ 500 [8.03, 172.18.0.1:56904]
+2025-05-12 16:36:28,743 ERROR HTTP GET /api/my-orders/ 500 [6.90, 172.18.0.1:51624]
+2025-05-12 16:36:30,560 ERROR HTTP GET /api/my-orders/ 500 [6.93, 172.18.0.1:43318]
+2025-05-12 16:37:50,612 ERROR HTTP GET /api/my-orders/ 500 [6.01, 172.18.0.1:50902]
+2025-05-12 16:37:58,664 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:50902]
+2025-05-12 16:38:06,744 ERROR HTTP GET /api/my-orders/ 500 [8.08, 172.18.0.1:56112]
+2025-05-12 16:38:14,787 ERROR HTTP GET /api/my-orders/ 500 [8.04, 172.18.0.1:50902]
+2025-05-12 16:38:18,541 INFO Order created successfully
+2025-05-12 16:38:18,546 INFO Files attached to order
+2025-05-12 16:38:20,516 ERROR HTTP GET /api/my-orders/ 500 [5.73, 172.18.0.1:56112]
+2025-05-12 16:38:24,380 ERROR HTTP POST /api/orders/ 500 [5.86, 172.18.0.1:50902]
+2025-05-12 16:38:28,606 ERROR HTTP GET /api/my-orders/ 500 [8.09, 172.18.0.1:56112]
+2025-05-12 16:38:46,259 ERROR HTTP GET /api/my-orders/ 500 [5.76, 172.18.0.1:56112]
+2025-05-12 16:38:54,385 ERROR HTTP GET /api/my-orders/ 500 [8.12, 172.18.0.1:50902]
+2025-05-12 16:39:02,478 ERROR HTTP GET /api/my-orders/ 500 [8.09, 172.18.0.1:56112]
+2025-05-12 16:39:10,560 ERROR HTTP GET /api/my-orders/ 500 [8.08, 172.18.0.1:50902]
+2025-05-12 16:39:16,334 ERROR HTTP GET /api/my-orders/ 500 [5.77, 172.18.0.1:56112]
+2025-05-12 16:39:24,393 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:50902]
+2025-05-12 16:42:01,060 INFO Order created successfully
+2025-05-12 16:42:09,115 ERROR HTTP POST /api/orders/ 500 [8.09, 172.18.0.1:32808]
+2025-05-12 16:42:27,745 ERROR HTTP GET /api/my-orders/ 500 [5.78, 172.18.0.1:32808]
+2025-05-12 16:42:35,883 ERROR HTTP GET /api/my-orders/ 500 [8.13, 172.18.0.1:37098]
+2025-05-12 16:42:43,931 ERROR HTTP GET /api/my-orders/ 500 [8.04, 172.18.0.1:32808]
+2025-05-12 16:42:52,018 ERROR HTTP GET /api/my-orders/ 500 [8.08, 172.18.0.1:37098]
+2025-05-12 16:42:57,785 ERROR HTTP GET /api/my-orders/ 500 [5.76, 172.18.0.1:32808]
+2025-05-12 16:43:05,839 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:37098]
+2025-05-12 17:00:00,214 ERROR HTTP GET /api/my-orders/ 500 [5.75, 172.18.0.1:35238]
+2025-05-12 17:00:08,267 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:35238]
+2025-05-12 17:00:16,327 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:44650]
+2025-05-12 17:00:24,381 ERROR HTTP GET /api/my-orders/ 500 [8.05, 172.18.0.1:35238]
+2025-05-12 17:00:30,135 ERROR HTTP GET /api/my-orders/ 500 [5.75, 172.18.0.1:44650]
+2025-05-12 17:00:38,203 ERROR HTTP GET /api/my-orders/ 500 [8.06, 172.18.0.1:35238]
+2025-05-12 17:18:29,686 WARNING Received Stripe webhook
+2025-05-12 17:18:30,964 WARNING Received Stripe webhook
+2025-05-12 17:18:30,989 WARNING PaymentIntent succeeded, but Payment not found
+2025-05-12 17:18:31,103 WARNING Received Stripe webhook
+2025-05-12 17:18:33,815 WARNING Received Stripe webhook
+2025-05-12 17:20:31,185 WARNING Received Stripe webhook
+2025-05-12 17:20:32,208 WARNING Received Stripe webhook
+2025-05-12 17:20:32,225 WARNING PaymentIntent succeeded, but Payment not found
+2025-05-12 17:20:32,406 WARNING Received Stripe webhook
+2025-05-12 17:20:35,033 WARNING Received Stripe webhook
+2025-05-12 17:42:29,748 INFO PaymentIntent created
+2025-05-12 17:42:29,991 WARNING Received Stripe webhook
+2025-05-12 17:42:31,038 WARNING Received Stripe webhook
+2025-05-12 17:42:31,059 INFO Payment succeeded and user balance updated
+2025-05-12 17:42:31,169 WARNING Received Stripe webhook
+2025-05-12 17:42:32,987 INFO User requested payment history
+2025-05-12 17:42:33,006 INFO User requested payment history
+2025-05-12 17:42:33,748 WARNING Received Stripe webhook
+2025-05-12 17:42:33,757 INFO User requested payment history
+2025-05-12 17:42:33,782 INFO User requested payment history
+2025-05-12 17:42:42,439 INFO User requested payment history
+2025-05-12 17:42:42,459 INFO User requested payment history
+2025-05-12 17:44:12,559 INFO User requested payment history
+2025-05-12 17:44:12,581 INFO User requested payment history
+2025-05-12 17:44:25,003 INFO PaymentIntent created
+2025-05-12 17:44:25,239 WARNING Received Stripe webhook
+2025-05-12 17:44:26,216 WARNING Received Stripe webhook
+2025-05-12 17:44:26,237 INFO Payment succeeded and user balance updated
+2025-05-12 17:44:26,353 WARNING Received Stripe webhook
+2025-05-12 17:44:27,982 INFO User requested payment history
+2025-05-12 17:44:28,001 INFO User requested payment history
+2025-05-12 17:44:26,696 WARNING Received Stripe webhook
+{"asctime": "2025-05-12 17:53:23,685", "levelname": "INFO", "name": "payments.views", "message": "User requested payment history", "user_id": 1, "payment_id": null, "amount": null}
+{"asctime": "2025-05-12 17:53:23,707", "levelname": "INFO", "name": "payments.views", "message": "User requested payment history", "user_id": 1, "payment_id": null, "amount": null}
+{"asctime": "2025-05-12 17:53:36,529", "levelname": "INFO", "name": "payments.views", "message": "PaymentIntent created", "user_id": 1, "payment_id": 10, "amount": "2000"}
+{"asctime": "2025-05-12 17:53:36,775", "levelname": "WARNING", "name": "payments.views", "message": "Received Stripe webhook", "user_id": null, "payment_id": null, "amount": null, "body": "{\n  \"id\": \"evt_3RO0Xi2fC3wx4Mo307GEQdGp\",\n  \"object\": \"event\",\n  \"api_version\": \"2025-02-24.acacia\",\n  \"created\": 1747072414,\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU\",\n      \"object\": \"payment_intent\",\n      \"amount\": 200000,\n      \"amount_capturable\": 0,\n      \"amount_details\": {\n        \"tip\": {\n        }\n      },\n      \"amount_received\": 0,\n      \"application\": null,\n      \"application_fee_amount\": null,\n      \"automatic_payment_methods\": {\n        \"allow_redirects\": \"always\",\n        \"enabled\": true\n      },\n      \"canceled_at\": null,\n      \"cancellation_reason\": null,\n      \"capture_method\": \"automatic_async\",\n      \"client_secret\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU_secret_Tb9ACcDwrWdQwWP3of3YlLoXT\",\n      \"confirmation_method\": \"automatic\",\n      \"created\": 1747072414,\n      \"currency\": \"kzt\",\n      \"customer\": null,\n      \"description\": null,\n      \"invoice\": null,\n      \"last_payment_error\": null,\n      \"latest_charge\": null,\n      \"livemode\": false,\n      \"metadata\": {\n        \"user_id\": \"1\"\n      },\n      \"next_action\": null,\n      \"on_behalf_of\": null,\n      \"payment_method\": null,\n      \"payment_method_configuration_details\": {\n        \"id\": \"pmc_1QxvlO2fC3wx4Mo3bzi4T0qH\",\n        \"parent\": null\n      },\n      \"payment_method_options\": {\n        \"card\": {\n          \"installments\": {\n            \"available_plans\": [\n\n            ],\n            \"enabled\": true,\n            \"plan\": null\n          },\n          \"mandate_options\": null,\n          \"network\": null,\n          \"request_three_d_secure\": \"automatic\"\n        },\n        \"link\": {\n          \"persistent_token\": null\n        }\n      },\n      \"payment_method_types\": [\n        \"card\",\n        \"link\"\n      ],\n      \"processing\": null,\n      \"receipt_email\": null,\n      \"review\": null,\n      \"setup_future_usage\": null,\n      \"shipping\": null,\n      \"source\": null,\n      \"statement_descriptor\": null,\n      \"statement_descriptor_suffix\": null,\n      \"status\": \"requires_payment_method\",\n      \"transfer_data\": null,\n      \"transfer_group\": null\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 2,\n  \"request\": {\n    \"id\": \"req_lzOzGouLAVZDe5\",\n    \"idempotency_key\": \"27f024b9-3006-4192-b3fb-989bf55280c9\"\n  },\n  \"type\": \"payment_intent.created\"\n}", "signature": "t=1747072414,v1=2220690e3e228ccab802ec2e4fe8fa94089ae0a42657992edfd3129b995c991e,v0=754e88e8d76bf1bbaa1346724244dcfdd087edc6b5d8702e5071af4772dbbe6d"}
+{"asctime": "2025-05-12 17:53:37,730", "levelname": "WARNING", "name": "payments.views", "message": "Received Stripe webhook", "user_id": null, "payment_id": null, "amount": null, "body": "{\n  \"id\": \"evt_3RO0Xi2fC3wx4Mo30QRQqgP9\",\n  \"object\": \"event\",\n  \"api_version\": \"2025-02-24.acacia\",\n  \"created\": 1747072415,\n  \"data\": {\n    \"object\": {\n      \"id\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU\",\n      \"object\": \"payment_intent\",\n      \"amount\": 200000,\n      \"amount_capturable\": 0,\n      \"amount_details\": {\n        \"tip\": {\n        }\n      },\n      \"amount_received\": 200000,\n      \"application\": null,\n      \"application_fee_amount\": null,\n      \"automatic_payment_methods\": {\n        \"allow_redirects\": \"always\",\n        \"enabled\": true\n      },\n      \"canceled_at\": null,\n      \"cancellation_reason\": null,\n      \"capture_method\": \"automatic_async\",\n      \"client_secret\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU_secret_Tb9ACcDwrWdQwWP3of3YlLoXT\",\n      \"confirmation_method\": \"automatic\",\n      \"created\": 1747072414,\n      \"currency\": \"kzt\",\n      \"customer\": null,\n      \"description\": null,\n      \"invoice\": null,\n      \"last_payment_error\": null,\n      \"latest_charge\": \"ch_3RO0Xi2fC3wx4Mo303JA8SLh\",\n      \"livemode\": false,\n      \"metadata\": {\n        \"user_id\": \"1\"\n      },\n      \"next_action\": null,\n      \"on_behalf_of\": null,\n      \"payment_method\": \"pm_1RO0Xi2fC3wx4Mo3LUq2sD9q\",\n      \"payment_method_configuration_details\": {\n        \"id\": \"pmc_1QxvlO2fC3wx4Mo3bzi4T0qH\",\n        \"parent\": null\n      },\n      \"payment_method_options\": {\n        \"card\": {\n          \"installments\": {\n            \"available_plans\": [\n\n            ],\n            \"enabled\": true,\n            \"plan\": null\n          },\n          \"mandate_options\": null,\n          \"network\": null,\n          \"request_three_d_secure\": \"automatic\"\n        },\n        \"link\": {\n          \"persistent_token\": null\n        }\n      },\n      \"payment_method_types\": [\n        \"card\",\n        \"link\"\n      ],\n      \"processing\": null,\n      \"receipt_email\": null,\n      \"review\": null,\n      \"setup_future_usage\": null,\n      \"shipping\": null,\n      \"source\": null,\n      \"statement_descriptor\": null,\n      \"statement_descriptor_suffix\": null,\n      \"status\": \"succeeded\",\n      \"transfer_data\": null,\n      \"transfer_group\": null\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 2,\n  \"request\": {\n    \"id\": \"req_5I7y2NvrHWnwtz\",\n    \"idempotency_key\": \"e087b82f-3b6e-4a16-beee-cb1c0355a465\"\n  },\n  \"type\": \"payment_intent.succeeded\"\n}", "signature": "t=1747072415,v1=a3d3c61db7aced5720421f960f1014211a49c2a6bb77cca7113f250c2fddfe48,v0=77279c610077d13a18de1ec56ae4f74c6ed1093611db8f138f4b0c7e5aca956b"}
+{"asctime": "2025-05-12 17:53:37,749", "levelname": "INFO", "name": "payments.views", "message": "Payment succeeded and user balance updated", "user_id": 1, "payment_id": 10, "amount": "2000.00"}
+{"asctime": "2025-05-12 17:53:37,837", "levelname": "WARNING", "name": "payments.views", "message": "Received Stripe webhook", "user_id": null, "payment_id": null, "amount": null, "body": "{\n  \"id\": \"evt_3RO0Xi2fC3wx4Mo30D27MA8C\",\n  \"object\": \"event\",\n  \"api_version\": \"2025-02-24.acacia\",\n  \"created\": 1747072415,\n  \"data\": {\n    \"object\": {\n      \"id\": \"ch_3RO0Xi2fC3wx4Mo303JA8SLh\",\n      \"object\": \"charge\",\n      \"amount\": 200000,\n      \"amount_captured\": 200000,\n      \"amount_refunded\": 0,\n      \"application\": null,\n      \"application_fee\": null,\n      \"application_fee_amount\": null,\n      \"balance_transaction\": null,\n      \"billing_details\": {\n        \"address\": {\n          \"city\": null,\n          \"country\": null,\n          \"line1\": null,\n          \"line2\": null,\n          \"postal_code\": \"12312\",\n          \"state\": null\n        },\n        \"email\": null,\n        \"name\": null,\n        \"phone\": null,\n        \"tax_id\": null\n      },\n      \"calculated_statement_descriptor\": \"Stripe\",\n      \"captured\": true,\n      \"created\": 1747072415,\n      \"currency\": \"kzt\",\n      \"customer\": null,\n      \"description\": null,\n      \"destination\": null,\n      \"dispute\": null,\n      \"disputed\": false,\n      \"failure_balance_transaction\": null,\n      \"failure_code\": null,\n      \"failure_message\": null,\n      \"fraud_details\": {\n      },\n      \"invoice\": null,\n      \"livemode\": false,\n      \"metadata\": {\n        \"user_id\": \"1\"\n      },\n      \"on_behalf_of\": null,\n      \"order\": null,\n      \"outcome\": {\n        \"advice_code\": null,\n        \"network_advice_code\": null,\n        \"network_decline_code\": null,\n        \"network_status\": \"approved_by_network\",\n        \"reason\": null,\n        \"risk_level\": \"normal\",\n        \"risk_score\": 21,\n        \"seller_message\": \"Payment complete.\",\n        \"type\": \"authorized\"\n      },\n      \"paid\": true,\n      \"payment_intent\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU\",\n      \"payment_method\": \"pm_1RO0Xi2fC3wx4Mo3LUq2sD9q\",\n      \"payment_method_details\": {\n        \"card\": {\n          \"amount_authorized\": 200000,\n          \"authorization_code\": null,\n          \"brand\": \"visa\",\n          \"checks\": {\n            \"address_line1_check\": null,\n            \"address_postal_code_check\": \"pass\",\n            \"cvc_check\": \"pass\"\n          },\n          \"country\": \"US\",\n          \"exp_month\": 4,\n          \"exp_year\": 2026,\n          \"extended_authorization\": {\n            \"status\": \"disabled\"\n          },\n          \"fingerprint\": \"I1oNj7Aj2qCjTmMx\",\n          \"funding\": \"credit\",\n          \"incremental_authorization\": {\n            \"status\": \"unavailable\"\n          },\n          \"installments\": null,\n          \"last4\": \"4242\",\n          \"mandate\": null,\n          \"multicapture\": {\n            \"status\": \"unavailable\"\n          },\n          \"network\": \"visa\",\n          \"network_token\": {\n            \"used\": false\n          },\n          \"network_transaction_id\": \"734911178106556\",\n          \"overcapture\": {\n            \"maximum_amount_capturable\": 200000,\n            \"status\": \"unavailable\"\n          },\n          \"regulated_status\": \"unregulated\",\n          \"three_d_secure\": null,\n          \"wallet\": null\n        },\n        \"type\": \"card\"\n      },\n      \"radar_options\": {\n      },\n      \"receipt_email\": null,\n      \"receipt_number\": null,\n      \"receipt_url\": \"https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUXh2a3IyZkMzd3g0TW8zKJ_riMEGMgbjmLvHxrI6LBZkwT1G2sknSfUglFORdV9xjuxpdYrYH2YSpjlhjMWHYcrQmxrdDFBZbthk\",\n      \"refunded\": false,\n      \"review\": null,\n      \"shipping\": null,\n      \"source\": null,\n      \"source_transfer\": null,\n      \"statement_descriptor\": null,\n      \"statement_descriptor_suffix\": null,\n      \"status\": \"succeeded\",\n      \"transfer_data\": null,\n      \"transfer_group\": null\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 2,\n  \"request\": {\n    \"id\": \"req_5I7y2NvrHWnwtz\",\n    \"idempotency_key\": \"e087b82f-3b6e-4a16-beee-cb1c0355a465\"\n  },\n  \"type\": \"charge.succeeded\"\n}", "signature": "t=1747072415,v1=bf791c44e0754ca7389e373a760c8c7efbfa2dc4b749ac890058d28c4afb0c99,v0=62fe8ecb5b0bf184f3e2239dda812ae52a189903b0fc4315b4029a3b963531ad"}
+{"asctime": "2025-05-12 17:53:39,084", "levelname": "INFO", "name": "payments.views", "message": "User requested payment history", "user_id": 1, "payment_id": null, "amount": null}
+{"asctime": "2025-05-12 17:53:39,102", "levelname": "INFO", "name": "payments.views", "message": "User requested payment history", "user_id": 1, "payment_id": null, "amount": null}
+{"asctime": "2025-05-12 17:53:40,636", "levelname": "WARNING", "name": "payments.views", "message": "Received Stripe webhook", "user_id": null, "payment_id": null, "amount": null, "body": "{\n  \"id\": \"evt_3RO0Xi2fC3wx4Mo30EGpbe8R\",\n  \"object\": \"event\",\n  \"api_version\": \"2025-02-24.acacia\",\n  \"created\": 1747072418,\n  \"data\": {\n    \"object\": {\n      \"id\": \"ch_3RO0Xi2fC3wx4Mo303JA8SLh\",\n      \"object\": \"charge\",\n      \"amount\": 200000,\n      \"amount_captured\": 200000,\n      \"amount_refunded\": 0,\n      \"application\": null,\n      \"application_fee\": null,\n      \"application_fee_amount\": null,\n      \"balance_transaction\": \"txn_3RO0Xi2fC3wx4Mo30bI5iZgN\",\n      \"billing_details\": {\n        \"address\": {\n          \"city\": null,\n          \"country\": null,\n          \"line1\": null,\n          \"line2\": null,\n          \"postal_code\": \"12312\",\n          \"state\": null\n        },\n        \"email\": null,\n        \"name\": null,\n        \"phone\": null,\n        \"tax_id\": null\n      },\n      \"calculated_statement_descriptor\": \"Stripe\",\n      \"captured\": true,\n      \"created\": 1747072415,\n      \"currency\": \"kzt\",\n      \"customer\": null,\n      \"description\": null,\n      \"destination\": null,\n      \"dispute\": null,\n      \"disputed\": false,\n      \"failure_balance_transaction\": null,\n      \"failure_code\": null,\n      \"failure_message\": null,\n      \"fraud_details\": {\n      },\n      \"invoice\": null,\n      \"livemode\": false,\n      \"metadata\": {\n        \"user_id\": \"1\"\n      },\n      \"on_behalf_of\": null,\n      \"order\": null,\n      \"outcome\": {\n        \"advice_code\": null,\n        \"network_advice_code\": null,\n        \"network_decline_code\": null,\n        \"network_status\": \"approved_by_network\",\n        \"reason\": null,\n        \"risk_level\": \"normal\",\n        \"risk_score\": 21,\n        \"seller_message\": \"Payment complete.\",\n        \"type\": \"authorized\"\n      },\n      \"paid\": true,\n      \"payment_intent\": \"pi_3RO0Xi2fC3wx4Mo30nIwlWUU\",\n      \"payment_method\": \"pm_1RO0Xi2fC3wx4Mo3LUq2sD9q\",\n      \"payment_method_details\": {\n        \"card\": {\n          \"amount_authorized\": 200000,\n          \"authorization_code\": null,\n          \"brand\": \"visa\",\n          \"checks\": {\n            \"address_line1_check\": null,\n            \"address_postal_code_check\": \"pass\",\n            \"cvc_check\": \"pass\"\n          },\n          \"country\": \"US\",\n          \"exp_month\": 4,\n          \"exp_year\": 2026,\n          \"extended_authorization\": {\n            \"status\": \"disabled\"\n          },\n          \"fingerprint\": \"I1oNj7Aj2qCjTmMx\",\n          \"funding\": \"credit\",\n          \"incremental_authorization\": {\n            \"status\": \"unavailable\"\n          },\n          \"installments\": null,\n          \"last4\": \"4242\",\n          \"mandate\": null,\n          \"multicapture\": {\n            \"status\": \"unavailable\"\n          },\n          \"network\": \"visa\",\n          \"network_token\": {\n            \"used\": false\n          },\n          \"network_transaction_id\": \"734911178106556\",\n          \"overcapture\": {\n            \"maximum_amount_capturable\": 200000,\n            \"status\": \"unavailable\"\n          },\n          \"regulated_status\": \"unregulated\",\n          \"three_d_secure\": null,\n          \"wallet\": null\n        },\n        \"type\": \"card\"\n      },\n      \"radar_options\": {\n      },\n      \"receipt_email\": null,\n      \"receipt_number\": null,\n      \"receipt_url\": \"https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUXh2a3IyZkMzd3g0TW8zKKLriMEGMgaNM_XPg7s6LBagL5S7kpxDnORxCLnyf2kbkefU1YToVM0LiwgxWpFa3cXfVokqMwBlyXGI\",\n      \"refunded\": false,\n      \"review\": null,\n      \"shipping\": null,\n      \"source\": null,\n      \"source_transfer\": null,\n      \"statement_descriptor\": null,\n      \"statement_descriptor_suffix\": null,\n      \"status\": \"succeeded\",\n      \"transfer_data\": null,\n      \"transfer_group\": null\n    },\n    \"previous_attributes\": {\n      \"balance_transaction\": null,\n      \"receipt_url\": \"https://pay.stripe.com/receipts/payment/CAcaFwoVYWNjdF8xUXh2a3IyZkMzd3g0TW8zKKLriMEGMga6uxjzJ8M6LBb43iKOOlUE8fxsArDaPWPPr40PHXJJXAS1oad_FJq6imkgDeho_e3OoctC\"\n    }\n  },\n  \"livemode\": false,\n  \"pending_webhooks\": 2,\n  \"request\": {\n    \"id\": null,\n    \"idempotency_key\": null\n  },\n  \"type\": \"charge.updated\"\n}", "signature": "t=1747072418,v1=e87c6f1165da5e26a70d661c08ba4f018da861a22729c240803142090e6e924b,v0=0dc35961b6267cbb215f5b3db204b010d86331ea35f909c3cfa3b82e89b57c8e"}
