@@ -1,5 +1,28 @@
-from pathlib import Path
 import os
+import sys
+from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+
+
+def rel_to(to, *x):
+    return os.path.join(to, *x)
+
+
+def rel(*x):
+    return os.path.join(PROJECT_PATH, *x)
+
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = 'Set the %s environment variable' % var_name
+        raise ImproperlyConfigured(error_msg)
+
+
+def get_env_or_default(var_name, default):
+    return os.environ.get(var_name, default)
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rd7&p1fl)9po0_wjdhy!82otw79gyea!=(qkf8ogs$ueeyiqv@'
@@ -93,28 +116,10 @@ CORS_ALLOW_CREDENTIALS = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '../../media')
 
-import sys
-from django.core.exceptions import ImproperlyConfigured
 DEFAULT_LOGGER_NAME = "qyzmettap_back"
 DB_LEVEL = 'ERROR'
 DEFAULT_LOGGER_HANDLERS = ['default_file', 'sentry']
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/..')
-
-def rel_to(to, *x):
-    return os.path.join(to, *x)
-
-def rel(*x):
-    return os.path.join(PROJECT_PATH, *x)
-
-def get_env_variable(var_name):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = 'Set the %s environment variable' % var_name
-        raise ImproperlyConfigured(error_msg)
-
-def get_env_or_default(var_name, default):
-    return os.environ.get(var_name, default)
 
 WORK_ROOT = rel_to('..', '..',)
 LOGS_FOLDER = get_env_or_default('LOGS_FOLDER', rel_to(WORK_ROOT, 'logs'))

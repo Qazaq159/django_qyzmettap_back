@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker build -t ferkinkz/qyzmetapp.stripe:latest .
+docker login
+docker push ferkinkz/qyzmetapp.stripe:latest
