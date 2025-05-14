@@ -1,7 +1,11 @@
 import os
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
 from django.core.exceptions import ImproperlyConfigured
+
+
+load_dotenv()
 
 
 def rel_to(to, *x):
@@ -122,7 +126,7 @@ DEFAULT_LOGGER_HANDLERS = ['default_file', 'sentry']
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/..')
 
 WORK_ROOT = rel_to('..', '..',)
-LOGS_FOLDER = get_env_or_default('LOGS_FOLDER', rel_to(WORK_ROOT, 'logs'))
+LOGS_FOLDER = get_env_or_default('LOGS_FOLDER', rel_to(WORK_ROOT, 'logs/'))
 LOG_DIR = rel_to(LOGS_FOLDER, 'qyzmettap_back')
 
 LOGGING = {
@@ -192,12 +196,12 @@ LOGGING = {
             'propagate': False,
         },
         'gunicorn.errors': {
-            'handlers': ['gunicorn', 'sentry'],
+            'handlers': ['gunicorn'],
             'level': 'ERROR',
             'propagate': True,
         },
         'django.db.backends': {
-            'handlers': ['db_file', 'sentry'],
+            'handlers': ['db_file'],
             'level': DB_LEVEL,
             'propagate': True,
         },
