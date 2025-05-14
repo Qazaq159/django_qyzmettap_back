@@ -11,5 +11,10 @@ done
 
 echo "STRIPE_WEBHOOK_SECRET found. Starting Django server..."
 
-python manage.py migrate
-exec python manage.py runserver 0.0.0.0:8000
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
+gunicorn qyzmettap_back.wsgi:application \
+  --timeout 180 \
+  --bind 0.0.0.0:8000 \
+  --workers 8 \
+  --log-level debug
