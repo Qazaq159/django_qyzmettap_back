@@ -43,7 +43,7 @@ jobs:
           push: true
           context: .
           platforms: linux/amd64,linux/arm64
-          tags: qyzmetapp.back:latest
+          tags: ferkinkz/qyzmetapp.back:latest
 
   deploy:
     runs-on: ubuntu-latest
