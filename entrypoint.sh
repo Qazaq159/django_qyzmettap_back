@@ -11,6 +11,10 @@ done
 
 echo "STRIPE_WEBHOOK_SECRET found. Starting Django server..."
 
+echo "Showi DJANGO_SETTINGS_MODULE"
+cat $ENV_FILE | grep "DJANGO_SETTINGS_MODULE"
+echo "Show completed"
+
 python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 gunicorn qyzmettap_back.wsgi:application \
