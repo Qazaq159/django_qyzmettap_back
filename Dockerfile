@@ -11,5 +11,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8000
+ENV DJANGO_SETTINGS_MODULE qyzmettap_back.settings.release
 
 ENTRYPOINT ["/entrypoint.sh"]
